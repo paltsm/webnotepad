@@ -1,0 +1,70 @@
+*{
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-family: monospace;
+	display: flex;
+	justify-content: center;
+	background-image: linear-gradient(rgb(32,32,64),rgb(64,64,128));
+}
+
+#notepad {
+	width: min(calc(100% - 2rem),50rem);
+	height: calc(100vh);
+	padding: 0.8rem 1rem;
+	margin: 0;
+	border: none;
+	outline: none;
+	background-image: linear-gradient(0deg,rgb(32,32,64),rgb(64,64,128));
+	color: white;
+	font-size: 1rem;
+	line-height: 1.125rem;
+	scrollbar-color: rgb(0, 0, 0,0.2) transparent;
+	scrollbar-width: thin;
+	tab-size: 4;
+}
+#message{
+	width: auto;
+	height: 2rem;
+	padding: 1rem;
+	position: absolute;
+	top: 1rem;
+	left: calc(50%);
+	translate: -50% 0;
+	background-color: orange;
+	border-radius: 0.4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 1s;
+}
+#message.active{
+	opacity: 1;
+}
+
+#savebutton{
+	position: absolute;
+	bottom: 1rem;
+	right: max(2rem, calc((100% - 50rem) / 2 + 1rem));
+	width: 3rem;
+	height: 3rem;
+	background-color: rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 0.4rem;
+}
+#settingbutton{
+	position: absolute;
+	bottom: 1rem;
+	right: max(6rem, calc((100% - 50rem) / 2 + 5rem));
+	width: 3rem;
+	height: 3rem;
+	background-color: rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 0.4rem;
+}
+button:hover{
+	cursor: pointer;
+}
