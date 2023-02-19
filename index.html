@@ -5,13 +5,135 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>notepad</title>
-	<link rel="stylesheet" href="style.css">
-	<script src="script.js" defer></script>
+	<!-- <link rel="stylesheet" href="style.css"> -->
+	<!-- <script src="script.js" defer></script> -->
+	<style>
+		*{
+	box-sizing: border-box;
+}
+body {
+	margin: 0;
+	padding: 0;
+	font-family: monospace;
+	display: flex;
+	justify-content: center;
+	background-image: linear-gradient(rgb(32,32,64),rgb(64,64,128));
+}
+
+#notepad {
+	width: min(calc(100% - 2rem),50rem);
+	height: calc(100vh);
+	padding: 0.8rem 1rem;
+	margin: 0;
+	border: none;
+	outline: none;
+	background-image: linear-gradient(0deg,rgb(32,32,64),rgb(64,64,128));
+	color: white;
+	font-size: 1rem;
+	line-height: 1.125rem;
+	scrollbar-color: rgb(0, 0, 0,0.2) transparent;
+	scrollbar-width: thin;
+	tab-size: 4;
+}
+#message{
+	width: auto;
+	height: 2rem;
+	padding: 1rem;
+	position: absolute;
+	top: 1rem;
+	left: calc(50%);
+	translate: -50% 0;
+	background-color: orange;
+	border-radius: 0.4rem;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	opacity: 0;
+	transition: opacity 1s;
+}
+#message.active{
+	opacity: 1;
+}
+
+#savebutton{
+	position: absolute;
+	bottom: 1rem;
+	right: max(2rem, calc((100% - 50rem) / 2 + 1rem));
+	width: 3rem;
+	height: 3rem;
+	background-color: rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 0.4rem;
+}
+#settingbutton{
+	position: absolute;
+	bottom: 1rem;
+	right: max(6rem, calc((100% - 50rem) / 2 + 5rem));
+	width: 3rem;
+	height: 3rem;
+	background-color: rgba(0, 0, 0, 0.2);
+	border: none;
+	border-radius: 0.4rem;
+}
+button:hover{
+	cursor: pointer;
+}
+	</style>
 </head>
 <body>
 	<div id="message"></div>
 	<textarea id="notepad"></textarea>
 	<button type="button" id="savebutton"><img src="checkmark-u2714.svg" id="checkmark" alt="✔"></button>
 	<button type="button" id="settingbutton"><img src="setting-u2699.svg" id="setting" alt="⚙"></button>
+
+
+
+	<script>
+		const notepad = document.getElementById("notepad")
+const savebutton = document.getElementById("savebutton")
+const message = document.getElementById("message")
+
+// Load saved content from local storage
+const savedContent = localStorage.getItem("notepadContent")
+if (savedContent) {
+	notepad.value = savedContent
+}
+
+// Save content to local storage
+savebutton.addEventListener("click",()=>{
+	saving()
+})
+
+// insert tab character
+notepad.addEventListener("keydown", (event) => {
+	if(event.key=="Tab"){
+		event.preventDefault()
+		console.log("okos")
+		let start = notepad.selectionStart
+		let end = notepad.selectionEnd
+		
+		// set notepad value to: text before caret + tab + text after caret
+		notepad.value = notepad.value.substring(0, start) +
+		"\t" + notepad.value.substring(end)
+		
+		// put caret at right position again
+		notepad.selectionStart = notepad.selectionEnd = start + 1
+	}
+	//save content when ctrl + s
+	if(event.ctrlKey && event.key=="s"){
+		event.preventDefault()
+		saving()
+	}
+})
+
+function saving(){
+	localStorage.setItem("notepadContent", notepad.value)
+	message.innerText="text saved"
+	message.classList.add("active")
+
+	setTimeout(()=>{message.classList.remove("active")},1000)
+}
+	</script>
+
 </body>	
 </html>
